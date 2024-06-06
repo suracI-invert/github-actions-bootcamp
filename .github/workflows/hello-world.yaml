@@ -10,4 +10,4 @@ jobs:
       - env:
           NAME: ${{ secrets.NAME }}
         run: echo "Hello, $NAME!"
-        run: cat requirements.txt
+      - run: cat requirements.txt
