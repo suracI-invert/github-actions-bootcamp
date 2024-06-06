@@ -26,10 +26,13 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       -
+        name: Read Docker Image Identifiers
+        run: echo ::set-env name=IMAGE_REPOSITORY::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
+      -
         name: Build and push
         uses: docker/build-push-action@v5
         with:
           push: ${{ github.event_name == 'push' }}
           tags: |-
-            ${{ secrets.REGISTRY_SERVER }}/${{ github.repository }}:latest
-            ${{ secrets.REGISTRY_SERVER }}/${{ github.repository }}:build-${{ vars.GITHUB_RUN_NUMBER }}
+            ${{ secrets.REGISTRY_SERVER }}/${{ env.IMAGE_REPOSITORY }}:latest
+            ${{ secrets.REGISTRY_SERVER }}/${{ env.IMAGE_REPOSITORY }}:build-${{ vars.GITHUB_RUN_NUMBER }}
